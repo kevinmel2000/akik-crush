@@ -7,6 +7,5 @@ public class DestroyOnStart : MonoBehaviour {
 	void Awake () 
     {
         Destroy(gameObject);
-	
 	}
 }

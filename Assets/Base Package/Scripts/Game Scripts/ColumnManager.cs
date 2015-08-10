@@ -7,11 +7,9 @@ public class ColumnManager : MonoBehaviour
     internal ColumnScript[] gameColumns;
     internal int numberOfColumns;
     
-
     void Awake()
     {
         instance = this;
-        
     }
 	
 	void Start () 
@@ -57,9 +55,5 @@ public class ColumnManager : MonoBehaviour
         {
             gameColumns[i] = temp[i];
         }
-	
 	}
-
-    
-
 }

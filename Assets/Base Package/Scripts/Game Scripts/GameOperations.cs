@@ -20,6 +20,8 @@ public class GameOperations : MonoBehaviour
 
     void Start()
     {
+        PlayerPrefs.SetInt("refreshBoard", 0);
+
         baseDelay = delay;
         suggestionItems = new PlayingObject[2];
         GameManager.instance.isBusy = true;
@@ -40,7 +42,6 @@ public class GameOperations : MonoBehaviour
         item1 = null;
         item2 = null;
     }
-   
 
     internal void CheckBoardState()
     {
@@ -74,7 +75,6 @@ public class GameOperations : MonoBehaviour
             CheckForPossibleMove();
             Invoke("ShowHint", 5f);
         }
-
     }
 
     internal void RemoveBrustItems()
@@ -83,7 +83,6 @@ public class GameOperations : MonoBehaviour
         {
             ColumnManager.instance.gameColumns[i].DeleteBrustedItems();
         }
-
     }
 
     internal void AddMissingItems()
@@ -111,7 +110,6 @@ public class GameOperations : MonoBehaviour
         GameOperations.instance.suggestionItems[1].Animate();
     }
     
-
     internal void StopShowingHint()
     {
         if (GameOperations.instance.suggestionItems[0])
@@ -124,11 +122,15 @@ public class GameOperations : MonoBehaviour
     {
         if (!IsMovePossible())
         {
+            //masih belum fix karna belum tau method yg berguna untuk buat falling object. check playing object
             print("No Moves Possible");
-            Application.LoadLevel(Application.loadedLevel);            
+            Application.LoadLevel(Application.loadedLevel);
+            //PlayerPrefs.SetInt("refreshBoard", 5);
+            //Debug.Log("Board Refreshed " + PlayerPrefs.GetInt("refreshedBoard"));
+            //mark this
+            //cara mengakali ini untuk membuat semua object destroy dan diganti dengan yg baru
         }        
     }
-
 
     bool IsMovePossible()
     {
@@ -161,8 +163,4 @@ public class GameOperations : MonoBehaviour
         GameManager.instance.objectFallingDuration = GameManager.instance.initialObjectFallingDuration;
     }
 
-   
-
-
-    
 }

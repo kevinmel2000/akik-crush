@@ -360,11 +360,4 @@ public class ColumnScript : MonoBehaviour
             }
         }
     }
-
-    
-
-    
-    
-	
-	
 }

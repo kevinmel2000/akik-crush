@@ -26,11 +26,16 @@ public class GameManager : MonoBehaviour
     int score;
 
     internal static int numberOfItemsPoppedInaRow = 0;
-    
+
+    //crushEffectCreator
+    CrushEffectCreator cEC;
+    public GameObject hugeStone;
+    int timeDelayState;
 
     void Awake()
     {
         instance = this;
+        timeDelayState = 0;
     }
 
 	void Start () 
@@ -42,32 +47,55 @@ public class GameManager : MonoBehaviour
         numberOfColumns = LevelStructure.instance.numberOfColumns;
         numberOfRows = LevelStructure.instance.numberOfRows;
         numberOfItemsPoppedInaRow = 0;
-        zeroStringMaker(scoreText, score, 6);
+
+        StringPusher.addStringDependInt(scoreText, score, 6, "0");
         scoreText.text += score.ToString();
         jellyText.text = "Jelly : " + totalNoOfJellies.ToString();
-	}
+        cEC = GetComponent<CrushEffectCreator>();
+    }
 
-    void zeroStringMaker(TextMesh sText, int value, int countMax)
+    void Update()
     {
-        sText.text = "";
-        Debug.Log((countMax - (value.ToString().Length)));
-        for (int i = 0; i < countMax - (value.ToString().Length); i++)
+        if (!WinLoseSystem.gameStateIsWin() && !WinLoseSystem.gameStateIsLose())
         {
-            sText.text += "0";
+            if (!GameManager.instance.isBusy)
+            {
+                hugeStone.GetComponent<Animator>().SetBool("IsHit", false);
+                WinLoseSystem.comparingScore(score); //membandingkan score dan maxScore jika score >= maxScore maka state jadi "IsWin"
+                WinLoseSystem.checkingMovesLeft(); //mengecek sisa langkah jika 0 maka state menjadi "IsLose"
+            }
+
+            if (isTimeToPlusOne(24))
+                hugeStone.GetComponent<Animator>().SetBool("IsHit", false);
         }
+
+        if (WinLoseSystem.gameStateIsWin())
+            Debug.Log("IsWin");
+        if (WinLoseSystem.gameStateIsLose())
+            Debug.Log("IsLose");
+    }
+
+    bool isTimeToPlusOne(int maxTime)
+    {
+        timeDelayState += 1;
+        if (timeDelayState >= maxTime)
+        {
+            timeDelayState = 0;
+            return true;
+        }
+        return false;
     }
 
     internal void AddScore()
     {
         //saat proses matching berhasil
         int temp = 10 * numberOfItemsPoppedInaRow * (numberOfItemsPoppedInaRow / 5 + 1);
-      //  print(temp);
+        //  print(temp);
         score += temp;
-        zeroStringMaker(scoreText, score, 6);
+        StringPusher.addStringDependInt(scoreText, score, 6, "0");
         scoreText.text += score.ToString();
+        cEC.createCrushEffect();
+        if (!WinLoseSystem.gameStateIsWin() && !WinLoseSystem.gameStateIsLose())
+            hugeStone.GetComponent<Animator>().SetBool("IsHit", true);
     }
-
-
-
-   
 }

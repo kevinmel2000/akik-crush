@@ -9,7 +9,6 @@ public class PlayingObjectTouch : MonoBehaviour
     void Start()
     {
         playingObjectScript = GetComponent<PlayingObject>();
-
     }
 
     bool isTouched = false;
@@ -59,6 +58,7 @@ public class PlayingObjectTouch : MonoBehaviour
 
     void OnMouseDrag()
     {
+        //saat mendrag object
         if (!isTouched)
             return;
 
@@ -71,12 +71,16 @@ public class PlayingObjectTouch : MonoBehaviour
                 if (tempPosition.x > transform.position.x)
                 {
                     if (playingObjectScript.adjacentItems[0] != null)
+                    {
                         playingObjectScript.adjacentItems[0].GetComponent<PlayingObjectTouch>().ObjectSelected();
+                    }
                 }
                 else
                 {
                     if (playingObjectScript.adjacentItems[1] != null)
+                    {
                         playingObjectScript.adjacentItems[1].GetComponent<PlayingObjectTouch>().ObjectSelected();
+                    }
                 }
             }
             else
@@ -84,19 +88,21 @@ public class PlayingObjectTouch : MonoBehaviour
                 if (tempPosition.y > transform.position.y)
                 {
                     if (playingObjectScript.adjacentItems[2] != null)
+                    {
                         playingObjectScript.adjacentItems[2].GetComponent<PlayingObjectTouch>().ObjectSelected();
+                    }
                 }
                 else
                 {
-                    if (playingObjectScript.adjacentItems[3] != null)
+                    if (playingObjectScript.adjacentItems[3] != null){
                         playingObjectScript.adjacentItems[3].GetComponent<PlayingObjectTouch>().ObjectSelected();
+                    }
                 }
             }
 
-            
+            MovesLeftSystem.movesLeftMinusOne();
             OnMouseUp();
         }
-        
     }
 
     void OnMouseUp()
@@ -105,7 +111,6 @@ public class PlayingObjectTouch : MonoBehaviour
         playingObjectScript.UnSelectMe();
         GameOperations.instance.item1 = null;
     }
-
 }
 
     

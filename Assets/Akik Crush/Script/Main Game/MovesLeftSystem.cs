@@ -3,20 +3,29 @@ using System.Collections;
 
 public class MovesLeftSystem : MonoBehaviour
 {
+    public TextMesh textMovesLeft;
     public int movesLeft;
 
     void Start()
     {
+        PlayerPrefs.SetInt("movesLeftAK", movesLeft);
     }
 
-    public void movesLeftMinusOne()
+    void Update()
     {
-        movesLeft -= 1;
+        textMovesLeft.text = "";
+        StringPusher.addStringDependInt(textMovesLeft, PlayerPrefs.GetInt("movesLeftAK"), 2, "0");
+        textMovesLeft.text += (PlayerPrefs.GetInt("movesLeftAK") + " Left");
     }
 
-    public bool movesLeftIsEmpty()
+    public static void movesLeftMinusOne()
     {
-        if (movesLeft <= 0)
+        PlayerPrefs.SetInt("movesLeftAK", PlayerPrefs.GetInt("movesLeftAK") - 1);
+    }
+
+    public static bool movesLeftIsEmpty()
+    {
+        if (PlayerPrefs.GetInt("movesLeftAK") <= 0)
             return true;
 
         return false;

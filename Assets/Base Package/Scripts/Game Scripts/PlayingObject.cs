@@ -11,7 +11,6 @@ public enum ObjectType
 
 public class PlayingObject : MonoBehaviour 
 {
-    
 
     public ObjectType objectType = ObjectType.None;
 
@@ -63,6 +62,20 @@ public class PlayingObject : MonoBehaviour
         adjacentItems = new PlayingObject[4];
 	
 	}
+
+    void Update()
+    {
+        //belum dipakek karna belum tau method yg berguna untuk buat falling object. check game operations
+        /*
+        if (PlayerPrefs.GetInt("refreshBoard") > 0)
+        {
+            //DestroyMe();
+            brust = true;
+            CheckIfCanBrust();
+            PlayerPrefs.SetInt("refreshBoard", PlayerPrefs.GetInt("refreshBoard") - 1);
+            Debug.Log("Checked " + PlayerPrefs.GetInt("refreshBoard"));
+        }*/
+    }
 
     void CheckForSpecialCandyFormation(string objName)
     {
@@ -325,7 +338,6 @@ public class PlayingObject : MonoBehaviour
         counter++;
         CancelInvoke("Animate");
         Invoke("Animate", .8f);
-
     }
 
     internal void StopAnimating()
@@ -335,14 +347,12 @@ public class PlayingObject : MonoBehaviour
             iTween.Stop(gameObject);
 
         transform.localScale = initialScale;
-        
     }
 
     internal void SelectMe()
     {
         isSelected = true;
         transform.FindChild("Image").renderer.material.SetColor("_TintColor", new Color(1, 1, 1, .5f));
-        
     }
 
     internal void UnSelectMe()
